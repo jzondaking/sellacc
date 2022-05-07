@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "auth_message" => "Please enter your user information.",
+    "field_email" => "Email Address",
+    "field_password" => "Password",
+    "field_remember" => "Remember me",
+    "field_name" => "Display Name",
+    "login_submit" => "Sign in",
+    "register_submit" => "Create Free Account",
+    "register_hyper_text" => "Create An Account",
+    "login_hyper_text" => "Already member? Login",
+    "forgot_hyper_text" => "Forgot your password?",
+    "log_login_success" => "Login Success",
+    "profile_cash" => "Available Balance",
+    "profile_cash_used" => "Used Balance",
+    "profile_total_order" => "Total Order",
+    "profile_created_at" => "Join Date",
+    "old_password" => "Old Password",
+    "new_password" => "New Password",
+    "confirm_password" => "Confirm Password",
+    "submit_change_password" => "Change Password",
+    "change_password_log" => "Change password success",
+    "re_login" => "Please login again!",
+    "log_created_at" => "Created Time",
+    "log_user" => "User",
+    "log_content" => "Log Content",
+    "log_balance_changes" => "Balance Changes",
+    "log_ip" => "IP Address",
+    "last_ip" => "Last Access IP"
+];

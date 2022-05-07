@@ -1,0 +1,32 @@
+<?php 
+
+return [
+    "swal_title_failed" => "THẤT BẠI",
+    "swal_title_success" => "THÀNH CÔNG",
+    "swal_btn_close" => "Đóng",
+    "swal_are_you_sure" => "Bạn có chắc chắn?",
+    "copy" => "Sao chép",
+    "download" => "Tải về",
+    "copied" => "Đã sao chép vào khay nhớ tạm",
+    "action" => "Hành động",
+    "member_role" => "Thành viên",
+    "admin_role" => "Quản trị viên",
+    "confirm_delete_message" => "Bạn có chắc chắn muốn xóa không ?",
+    "row_not_found" => "Không tìm thấy dữ liệu",
+    "delete_success" => "Xóa thành công",
+    "add_success" => "Thêm thành công",
+    "action_add" => "<i class='fas fa-plus-circle'></i> THÊM NGAY",
+    "action_delete" => "<i class='fas fa-trash-alt'></i> XÓA",
+    "action_edit" => "<i class='fas fa-edit'></i> CHỈNH SỬA",
+    "confirm_delete" => "Xác nhận xóa",
+    "save_changes" => "Lưu thay đổi",
+    "submit" => "<i class='fas fa-check-square'></i> Thực thi",
+    "save_success" => "Lưu thay đổi thành công!",
+    "excute_success" => "Thực thi thành công",
+    "on" => "Bật",
+    "off" => "Tắt",
+    "data_not_found" => ":data không tìm thấy",
+    "clean_success" => "Dọn dẹp thành công",
+    "clean" => "DỌN DẸP",
+    "add_account_success" => "Đã thêm: :add | Trùng lặp: :duplicate | Lỗi: :error"
+];

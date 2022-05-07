@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "auth_message" => "Vui lòng nhập thông tin người dùng của bạn.",
+    "field_email" => "Địa chỉ email",
+    "field_password" => "Mật khẩu",
+    "field_remember" => "Ghi nhớ phiên",
+    "field_name" => "Tên hiển thị",
+    "register_submit" => "Tạo tài khoản mới",
+    "login_submit" => "Đăng nhập",
+    "login_hyper_text" => "Đăng nhập vào tài khoản",
+    "register_hyper_text" => "Tạo tài khoản mới",
+    "forgot_hyper_text" => "Quên mật khẩu?",
+    "log_login_success" => "Đăng nhập thành công",
+    "profile_cash" => "Số dư khả dụng",
+    "profile_cash_used" => "Đã sử dụng",
+    "profile_total_order" => "Tổng đơn hàng",
+    "profile_created_at" => "Ngày tham gia",
+    "old_password" => "Mật khẩu cũ",
+    "new_password" => "Mật khẩu mới",
+    "confirm_password" => "Xác nhận mật khẩu",
+    "submit_change_password" => "Đổi mật khẩu",
+    "change_password_log" => "Đổi mật khẩu thành công",
+    "re_login" => "Vui lòng đăng nhập lại!",
+    "log_created_at" => "Thời gian",
+    "log_user" => "Người dùng",
+    "log_content" => "Nội dung nhật kí",
+    "log_balance_changes" => "Biến động số dư",
+    "log_ip" => "Địa chỉ IP",
+    "last_ip" => "Địa chỉ IP lần cuối"
+];

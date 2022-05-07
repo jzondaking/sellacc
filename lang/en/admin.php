@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "dashboard" => "Dashboard",
+    "main_title" => "Admin Dashboard",
+    "manage_users" => "Manage Users",
+    "display_name" => "Display Name",
+    "email" => "Email",
+    "role" => "Role",
+    "find_user" => "Find User",
+    "uid" => "UID",
+    "edit_user" => "Edit User #:id",
+    "user_basic" => "Basic Information",
+    "user_cash" => "Change Balance",
+    "cash_type" => "Type",
+    "cash_value" => "Value",
+    "manage_orders" => "Manage Orders",
+    "find_order" => "Find Order Code",
+    "manage_categories" => "Manage Categories",
+    "add_category" => "Add Category",
+    "manage_products" => "Manage Products",
+    "edit_product" => "Edit Product",
+    "edit_category" => "Edit Category",
+    "add_product" => "Add New Product",
+    "manage_resources" => "Manage Resources",
+    "add_accounts" => "Add Accounts",
+    "manage_payments" => "Manage Payments",
+    "setting_website" => "Overall Website",
+    "setting_security" => "Security",
+    "setting_currency" => "Currency"
+];

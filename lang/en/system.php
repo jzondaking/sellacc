@@ -1,0 +1,32 @@
+<?php 
+
+return [
+    "swal_title_failed" => "FAILED",
+    "swal_title_success" => "SUCCESS",
+    "swal_btn_close" => "Close",
+    "swal_are_you_sure" => "Are you sure?",
+    "copy" => "Copy",
+    "download" => "Download",
+    "copied" => "Copied to the clipboard",
+    "action" => "Action",
+    "member_role" => "Member",
+    "admin_role" => "Admin",
+    "confirm_delete_message" => "Are you sure you want to delete ?",
+    "data_not_found" => "Data not found",
+    "delete_success" => "Deleted Successfully",
+    "add_success" => "Added Successfully",
+    "action_add" => "<i class='fas fa-plus-circle'></i> SUBMIT ADD",
+    "action_delete" => "<i class='fas fa-trash-alt'></i> DELETE",
+    "action_edit" => "<i class='fas fa-edit'></i> EDIT",
+    "confirm_delete" => "Confirm Delete",
+    "save_changes" => "<i class='fas fa-save'></i> Save Changes",
+    "submit" => "<i class='fas fa-check-square'></i> Submit",
+    "save_success" => "The changes have been saved!",
+    "excute_success" => "Excuted Successfully",
+    "on" => "Turn ON",
+    "off" => "Turn OFF",
+    "data_not_found" => ":data not found",
+    "clean_success" => "Cleaned Successfully",
+    "clean" => "CLEAN",
+    "add_account_success" => "Added: :add | Duplicate: :duplicate | Error: :error"
+];

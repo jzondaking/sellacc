@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "dashboard" => "Bảng điều khiển",
+    "main_title" => "Quản trị viên",
+    "manage_users" => "Quản lý người dùng",
+    "display_name" => "Tên hiển thị",
+    "email" => "Email",
+    "role" => "Cấp bậc",
+    "find_user" => "Tìm người dùng",
+    "uid" => "UID",
+    "edit_user" => "Chỉnh sửa người dùng #:id",
+    "user_basic" => "Thông tin cơ bản",
+    "user_cash" => "Tác động số dư",
+    "cash_type" => "Loại",
+    "cash_value" => "Giá trị",
+    "manage_orders" => "Quản lý đơn hàng",
+    "find_order" => "Tìm mã đơn hàng",
+    "manage_categories" => "Quản lý danh mục",
+    "add_category" => "Thêm danh mục",
+    "manage_products" => "Quản lý sản phẩm",
+    "edit_product" => "Chỉnh sửa sản phẩm",
+    "edit_category" => "Chỉnh sửa danh mục",
+    "add_product" => "Thêm sản phẩm mới",
+    "manage_resources" => "Quản lý tài nguyên",
+    "add_accounts" => "Thêm tài khoản",
+    "manage_payments" => "Quản lý thanh toán",
+    "setting_website" => "Tổng quan Website",
+    "setting_security" => "Bảo mật",
+    "setting_currency" => "Tiền tệ"
+];
