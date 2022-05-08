@@ -6,7 +6,7 @@
 
 ## Introduction
 * **Backend**: *Laravel 9 (9.5.1), MySQL*
-* **Frontend**: *[Dash UI Bootstrap 5 (Client)] (https://codescandy.com/dashui/index.html) - [AdminLTE Bootstrap 4 (Admin)](https://adminlte.io/themes/v3/index3.html)*
+* **Frontend**: *[Dash UI Bootstrap 5 (Client)](https://codescandy.com/dashui/index.html) - [AdminLTE Bootstrap 4 (Admin)](https://adminlte.io/themes/v3/index3.html)*
 * **Multi Language & Currency:** Supported *English (Dollar), Vietnamese (VND)*
 
 ## Requirements
