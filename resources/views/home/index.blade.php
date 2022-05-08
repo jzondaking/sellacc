@@ -230,7 +230,7 @@
         }
         
         if(isVolumeOn){
-            var audio = new Audio('public/audio/purchase_success.mp3');
+            var audio = new Audio('@jzon/audio/purchase_success.mp3');
             audio.play();
         }
     }

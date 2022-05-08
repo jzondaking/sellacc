@@ -47,13 +47,13 @@
                                 <h5 class="mb-1">
                                     <a href="javascript:;" class="text-inherit" id="product_name_{{ $product['id'] }}" data-toggle="tooltip" data-placement="top" title="{{ $product['description'] }}">
                                         @if ($product['flag'])
-                                        <img src="/public/images/flags/{{ $product['flag'] }}.svg"  style="width: 30px; vertical-align: bottom; margin-right: 3px;" alt="">
+                                        <img src="/@jzon/images/flags/{{ $product['flag'] }}.svg"  style="width: 30px; vertical-align: bottom; margin-right: 3px;" alt="">
                                         @endif
         
                                         {{ $product['name'] }}
         
                                         @if ($product['hot'] == 1)
-                                        <img src="/public/images/hot.gif" alt="">
+                                        <img src="/@jzon/images/hot.gif" alt="">
                                         @endif
                                     </a>
                                 </h5>

@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>@lang('admin.main_title')</title>
-        <link rel="icon" type="image/x-icon" href="/public/images/admin_dashboard.ico">
+        <link rel="icon" type="image/x-icon" href="/@jzon/images/admin_dashboard.ico">
 
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
@@ -15,12 +15,12 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css" />
 
-        <script src="/public/js/jquery-3.6.0.min.js"></script>
+        <script src="/@jzon/js/jquery-3.6.0.min.js"></script>
 
         <link href="/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
         <script src="/admin/plugins/select2/js/select2.min.js" defer></script>
         
-        <script src="/public/js/sweetalert2.min.js"></script>
+        <script src="/@jzon/js/sweetalert2.min.js"></script>
 
     </head>
 
@@ -75,7 +75,7 @@
                             <img src="/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image" />
                         </div>
                         <div class="info">
-                            <a href="#" class="d-block">{{ Auth::user()->name }} <img src="/public/images/verify.png" alt="verify" style="margin-left: 3px; width: 16px; height: 16px;"></a> 
+                            <a href="#" class="d-block">{{ Auth::user()->name }} <img src="/@jzon/images/verify.png" alt="verify" style="margin-left: 3px; width: 16px; height: 16px;"></a> 
                         </div>
                     </div>
 

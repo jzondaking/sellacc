@@ -9,8 +9,8 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ setting('favicon') }}" />
 
         <!-- Libs CSS -->
-        <script src="/public/js/jquery-3.6.0.min.js"></script>
-        <script src="/public/js/sweetalert2.min.js"></script>
+        <script src="/@jzon/js/jquery-3.6.0.min.js"></script>
+        <script src="/@jzon/js/sweetalert2.min.js"></script>
         {{-- <link href="/client/assets/libs/select2/select2.min.css" rel="stylesheet" />
         <script src="/client/assets/libs/select2/select2.min.js"></script> --}}
 
@@ -18,7 +18,7 @@
         <link href="/client/assets/libs/dropzone/dist/dropzone.css" rel="stylesheet" />
         <link href="/client/assets/libs/%40mdi/font/css/materialdesignicons.min.css" rel="stylesheet" />
         <link href="/client/assets/libs/prismjs/themes/prism-okaidia.css" rel="stylesheet" />
-        <script src="/public/js/fontawesome.js"></script>
+        <script src="/@jzon/js/fontawesome.js"></script>
         
         <!-- Theme CSS -->
         <link rel="stylesheet" href="/client/assets/css/theme.min.css" />
@@ -378,7 +378,7 @@
 
         <!-- Scripts -->
         <!-- Libs JS -->
-        <script src="/public/js/app.js?{{ time() }}"></script>
+        <script src="/@jzon/js/app.js?{{ time() }}"></script>
         <script src="/client/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/client/assets/libs/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/client/assets/libs/feather-icons/dist/feather.min.js"></script>
