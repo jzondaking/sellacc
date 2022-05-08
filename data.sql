@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 INSERT INTO `settings` (`id`, `name`, `value`) VALUES
 	(1, 'website_name', 'SELLACC'),
 	(2, 'client_title', 'SELLACC'),
-	(3, 'logo', '/public/images/jzontech.svg'),
+	(3, 'logo', '/@jzon/images/jzontech.svg'),
 	(4, 'client_title_banner', 'SELLACC.COM - SOCIAL MEDIA ACCOUNTS SHOP'),
 	(5, 'client_description_banner', 'Leading marketplace to buy and sell established Instagram accounts, Youtube channels & Tiktok accounts!'),
 	(6, 'client_image_banner', 'https://i.ibb.co/hDypqsT/network-1591589833510328454113.jpg'),
