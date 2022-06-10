@@ -16,6 +16,7 @@ Server / Hosting has PHP version from 8.0 - 8.1
 - **Step 1:** Upload source code to server / hosting.
 - **Step 2:** Create database and user full priv -> Upload SQL file to database.
 - **Step 3:** Edit .env file. Change DB_DATABASE, DB_USERNAME, DB_PASSWORD to your database. (Change DB_PORT or DB_HOST if need)
+- **Step 4:** Execute command `composer install` or `composer upgrade` (situation for `composer install` not work)
 - **That's all, Enjoy 🥰!**
 
 ## Credit & Feedback
