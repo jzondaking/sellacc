@@ -72,20 +72,20 @@ class Application implements ResetInterface
 {
     private array $commands = [];
     private bool $wantHelps = false;
-    private $runningCommand = null;
+    private ?Command $runningCommand = null;
     private string $name;
     private string $version;
-    private $commandLoader = null;
+    private ?CommandLoaderInterface $commandLoader = null;
     private bool $catchExceptions = true;
     private bool $autoExit = true;
-    private $definition;
-    private $helperSet;
-    private $dispatcher = null;
-    private $terminal;
+    private InputDefinition $definition;
+    private HelperSet $helperSet;
+    private ?EventDispatcherInterface $dispatcher = null;
+    private Terminal $terminal;
     private string $defaultCommand;
     private bool $singleCommand = false;
     private bool $initialized = false;
-    private $signalRegistry;
+    private SignalRegistry $signalRegistry;
     private array $signalsToDispatchEvent = [];
 
     public function __construct(string $name = 'UNKNOWN', string $version = 'UNKNOWN')
@@ -179,7 +179,7 @@ class Application implements ResetInterface
             $exitCode = $e->getCode();
             if (is_numeric($exitCode)) {
                 $exitCode = (int) $exitCode;
-                if (0 === $exitCode) {
+                if ($exitCode <= 0) {
                     $exitCode = 1;
                 }
             } else {
@@ -228,7 +228,7 @@ class Application implements ResetInterface
         try {
             // Makes ArgvInput::getFirstArgument() able to distinguish an option from an argument.
             $input->bind($this->getDefinition());
-        } catch (ExceptionInterface $e) {
+        } catch (ExceptionInterface) {
             // Errors must be ignored, full binding/validation happens later when the command is known.
         }
 
@@ -353,9 +353,18 @@ class Application implements ResetInterface
             CompletionInput::TYPE_ARGUMENT_VALUE === $input->getCompletionType()
             && 'command' === $input->getCompletionName()
         ) {
-            $suggestions->suggestValues(array_filter(array_map(function (Command $command) {
-                return $command->isHidden() ? null : $command->getName();
-            }, $this->all())));
+            $commandNames = [];
+            foreach ($this->all() as $name => $command) {
+                // skip hidden commands and aliased commands as they already get added below
+                if ($command->isHidden() || $command->getName() !== $name) {
+                    continue;
+                }
+                $commandNames[] = $command->getName();
+                foreach ($command->getAliases() as $name) {
+                    $commandNames[] = $name;
+                }
+            }
+            $suggestions->suggestValues(array_filter($commandNames));
 
             return;
         }
@@ -558,7 +567,7 @@ class Application implements ResetInterface
     {
         $this->init();
 
-        return isset($this->commands[$name]) || ($this->commandLoader && $this->commandLoader->has($name) && $this->add($this->commandLoader->get($name)));
+        return isset($this->commands[$name]) || ($this->commandLoader?->has($name) && $this->add($this->commandLoader->get($name)));
     }
 
     /**
@@ -993,7 +1002,7 @@ class Application implements ResetInterface
         try {
             $command->mergeApplicationDefinition();
             $input->bind($command->getDefinition());
-        } catch (ExceptionInterface $e) {
+        } catch (ExceptionInterface) {
             // ignore invalid options/arguments for now, to allow the event listeners to customize the InputDefinition
         }
 

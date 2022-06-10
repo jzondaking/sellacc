@@ -520,6 +520,10 @@ trait HasAttributes
             return call_user_func(static::$lazyLoadingViolationCallback, $this, $key);
         }
 
+        if (! $this->exists || $this->wasRecentlyCreated) {
+            return;
+        }
+
         throw new LazyLoadingViolationException($this, $key);
     }
 
@@ -626,7 +630,7 @@ trait HasAttributes
      */
     protected function mutateAttributeMarkedAttribute($key, $value)
     {
-        if (isset($this->attributeCastCache[$key])) {
+        if (array_key_exists($key, $this->attributeCastCache)) {
             return $this->attributeCastCache[$key];
         }
 
@@ -636,10 +640,10 @@ trait HasAttributes
             return $value;
         }, $value, $this->attributes);
 
-        if (! is_object($value) || ! $attribute->withObjectCaching) {
-            unset($this->attributeCastCache[$key]);
-        } else {
+        if ($attribute->withCaching || (is_object($value) && $attribute->withObjectCaching)) {
             $this->attributeCastCache[$key] = $value;
+        } else {
+            unset($this->attributeCastCache[$key]);
         }
 
         return $value;
@@ -1019,10 +1023,10 @@ trait HasAttributes
             )
         );
 
-        if (! is_object($value) || ! $attribute->withObjectCaching) {
-            unset($this->attributeCastCache[$key]);
-        } else {
+        if ($attribute->withCaching || (is_object($value) && $attribute->withObjectCaching)) {
             $this->attributeCastCache[$key] = $value;
+        } else {
+            unset($this->attributeCastCache[$key]);
         }
     }
 
@@ -1939,8 +1943,8 @@ trait HasAttributes
             return $this->fromDateTime($attribute) ===
                 $this->fromDateTime($original);
         } elseif ($this->hasCast($key, ['object', 'collection'])) {
-            return $this->castAttribute($key, $attribute) ==
-                $this->castAttribute($key, $original);
+            return $this->fromJson($attribute) ===
+                $this->fromJson($original);
         } elseif ($this->hasCast($key, ['real', 'float', 'double'])) {
             if ($original === null) {
                 return false;

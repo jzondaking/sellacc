@@ -37,7 +37,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
             new \RecursiveCallbackFilterIterator(
                 new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
                 function (\SplFileInfo $current) {
-                    return '.' !== substr($current->getBasename(), 0, 1);
+                    return !str_starts_with($current->getBasename(), '.');
                 }
             ),
             \RecursiveIteratorIterator::LEAVES_ONLY
@@ -69,7 +69,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
      */
     public function supports(mixed $resource, string $type = null): bool
     {
-        if ('annotation' === $type) {
+        if (\in_array($type, ['annotation', 'attribute'], true)) {
             return true;
         }
 
@@ -79,7 +79,7 @@ class AnnotationDirectoryLoader extends AnnotationFileLoader
 
         try {
             return is_dir($this->locator->locate($resource));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

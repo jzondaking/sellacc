@@ -36,7 +36,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      */
     private \SplObjectStorage $controllers;
     private array $sessionUsages = [];
-    private $requestStack;
+    private ?RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack = null)
     {
@@ -110,7 +110,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
             'session_metadata' => $sessionMetadata,
             'session_attributes' => $sessionAttributes,
             'session_usages' => array_values($this->sessionUsages),
-            'stateless_check' => $this->requestStack && $this->requestStack->getMainRequest()->attributes->get('_stateless', false),
+            'stateless_check' => $this->requestStack?->getMainRequest()->attributes->get('_stateless') ?? false,
             'flashes' => $flashes,
             'path_info' => $request->getPathInfo(),
             'controller' => 'n/a',
@@ -449,7 +449,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                     'file' => $r->getFileName(),
                     'line' => $r->getStartLine(),
                 ];
-            } catch (\ReflectionException $e) {
+            } catch (\ReflectionException) {
                 if (\is_callable($controller)) {
                     // using __call or  __callStatic
                     return [

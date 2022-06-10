@@ -2,13 +2,18 @@
 
 namespace Illuminate\Console\Scheduling;
 
+use Closure;
 use Cron\CronExpression;
 use DateTimeZone;
 use Illuminate\Console\Application;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use ReflectionClass;
+use ReflectionFunction;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Terminal;
 
+#[AsCommand(name: 'schedule:list')]
 class ScheduleListCommand extends Command
 {
     /**
@@ -17,6 +22,17 @@ class ScheduleListCommand extends Command
      * @var string
      */
     protected $signature = 'schedule:list {--timezone= : The timezone that times should be displayed in}';
+
+    /**
+     * The name of the console command.
+     *
+     * This name is used to identify the command during lazy loading.
+     *
+     * @var string|null
+     *
+     * @deprecated
+     */
+    protected static $defaultName = 'schedule:list';
 
     /**
      * The console command description.
@@ -43,20 +59,39 @@ class ScheduleListCommand extends Command
     public function handle(Schedule $schedule)
     {
         $events = collect($schedule->events());
-        $terminalWidth = $this->getTerminalWidth();
+
+        if ($events->isEmpty()) {
+            $this->comment('No scheduled tasks have been defined.');
+
+            return;
+        }
+
+        $terminalWidth = self::getTerminalWidth();
+
         $expressionSpacing = $this->getCronExpressionSpacing($events);
 
-        $events = $events->map(function ($event) use ($terminalWidth, $expressionSpacing) {
+        $timezone = new DateTimeZone($this->option('timezone') ?? config('app.timezone'));
+
+        $events = $events->map(function ($event) use ($terminalWidth, $expressionSpacing, $timezone) {
             $expression = $this->formatCronExpression($event->expression, $expressionSpacing);
 
             $command = $event->command;
+            $description = $event->description;
 
             if (! $this->output->isVerbose()) {
-                $command = str_replace(
-                    Application::artisanBinary(),
+                $command = str_replace([Application::phpBinary(), Application::artisanBinary()], [
+                    'php',
                     preg_replace("#['\"]#", '', Application::artisanBinary()),
-                    str_replace(Application::phpBinary(), 'php', $event->command)
-                );
+                ], $event->command);
+            }
+
+            if ($event instanceof CallbackEvent) {
+                if (class_exists($event->description)) {
+                    $command = $event->description;
+                    $description = '';
+                } else {
+                    $command = 'Closure at: '.$this->getClosureLocation($event);
+                }
             }
 
             $command = mb_strlen($command) > 1 ? "{$command} " : '';
@@ -65,7 +100,7 @@ class ScheduleListCommand extends Command
 
             $nextDueDate = Carbon::create((new CronExpression($event->expression))
                 ->getNextRunDate(Carbon::now()->setTimezone($event->timezone))
-                ->setTimezone(new DateTimeZone($this->option('timezone') ?? config('app.timezone')))
+                ->setTimezone($timezone)
             );
 
             $nextDueDate = $this->output->isVerbose()
@@ -79,7 +114,7 @@ class ScheduleListCommand extends Command
             ));
 
             // Highlight the parameters...
-            $command = preg_replace("#(=['\"]?)([^'\"]+)(['\"]?)#", '$1<fg=yellow;options=bold>$2</>$3', $command);
+            $command = preg_replace("#(php artisan [\w\-:]+) (.+)#", '$1 <fg=yellow;options=bold>$2</>', $command);
 
             return [sprintf(
                 '  <fg=yellow>%s</>  %s<fg=#6C7280>%s %s%s %s</>',
@@ -89,19 +124,15 @@ class ScheduleListCommand extends Command
                 $hasMutex,
                 $nextDueDateLabel,
                 $nextDueDate
-            ), $this->output->isVerbose() && mb_strlen($event->description) > 1 ? sprintf(
+            ), $this->output->isVerbose() && mb_strlen($description) > 1 ? sprintf(
                 '  <fg=#6C7280>%s%s %s</>',
                 str_repeat(' ', mb_strlen($expression) + 2),
                 '⇁',
-                $event->description
+                $description
             ) : ''];
         });
 
-        if ($events->isEmpty()) {
-            return $this->comment('No scheduled tasks have been defined.');
-        }
-
-        $this->output->writeln(
+        $this->line(
             $events->flatten()->filter()->prepend('')->push('')->toArray()
         );
     }
@@ -128,11 +159,40 @@ class ScheduleListCommand extends Command
      */
     private function formatCronExpression($expression, $spacing)
     {
-        $expression = explode(' ', $expression);
+        $expressions = explode(' ', $expression);
 
         return collect($spacing)
-            ->map(fn ($length, $index) => $expression[$index] = str_pad($expression[$index], $length))
+            ->map(fn ($length, $index) => str_pad($expressions[$index], $length))
             ->implode(' ');
+    }
+
+    /**
+     * Get the file and line number for the event closure.
+     *
+     * @param  \Illuminate\Console\Scheduling\CallbackEvent  $event
+     * @return string
+     */
+    private function getClosureLocation(CallbackEvent $event)
+    {
+        $callback = tap((new ReflectionClass($event))->getProperty('callback'))
+                        ->setAccessible(true)
+                        ->getValue($event);
+
+        if ($callback instanceof Closure) {
+            $function = new ReflectionFunction($callback);
+
+            return sprintf(
+                '%s:%s',
+                str_replace($this->laravel->basePath().DIRECTORY_SEPARATOR, '', $function->getFileName() ?: ''),
+                $function->getStartLine()
+            );
+        }
+
+        if (is_array($callback)) {
+            return sprintf('%s::%s', $callback[0]::class, $callback[1]);
+        }
+
+        return sprintf('%s::__invoke', $callback::class);
     }
 
     /**

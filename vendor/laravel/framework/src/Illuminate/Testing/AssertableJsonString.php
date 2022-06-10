@@ -16,7 +16,7 @@ class AssertableJsonString implements ArrayAccess, Countable
     /**
      * The original encoded json.
      *
-     * @var \Illuminate\Contracts\Support\Jsonable|\JsonSerializable|array
+     * @var \Illuminate\Contracts\Support\Jsonable|\JsonSerializable|array|string
      */
     public $json;
 
@@ -207,6 +207,19 @@ class AssertableJsonString implements ArrayAccess, Countable
             'within'.PHP_EOL.PHP_EOL.
             "[{$actual}]."
         );
+
+        return $this;
+    }
+
+    /**
+     * Assert that the response does not contain the given path.
+     *
+     * @param  string  $path
+     * @return $this
+     */
+    public function assertMissingPath($path)
+    {
+        PHPUnit::assertFalse(Arr::has($this->json(), $path));
 
         return $this;
     }

@@ -36,7 +36,7 @@ class YamlFileLoader extends FileLoader
     private const AVAILABLE_KEYS = [
         'resource', 'type', 'prefix', 'path', 'host', 'schemes', 'methods', 'defaults', 'requirements', 'options', 'condition', 'controller', 'name_prefix', 'trailing_slash_on_root', 'locale', 'format', 'utf8', 'exclude', 'stateless',
     ];
-    private $yamlParser;
+    private YamlParser $yamlParser;
 
     /**
      * @throws \InvalidArgumentException When a route can't be parsed because YAML is invalid
@@ -75,7 +75,7 @@ class YamlFileLoader extends FileLoader
         }
 
         foreach ($parsedConfig as $name => $config) {
-            if (0 === strpos($name, 'when@')) {
+            if (str_starts_with($name, 'when@')) {
                 if (!$this->env || 'when@'.$this->env !== $name) {
                     continue;
                 }

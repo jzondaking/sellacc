@@ -237,7 +237,7 @@ abstract class AbstractUnicodeString extends AbstractString
                 $lastError = preg_last_error();
 
                 foreach (get_defined_constants(true)['pcre'] as $k => $v) {
-                    if ($lastError === $v && '_ERROR' === substr($k, -6)) {
+                    if ($lastError === $v && str_ends_with($k, '_ERROR')) {
                         throw new RuntimeException('Matching failed with '.$k.'.');
                     }
                 }
@@ -329,7 +329,7 @@ abstract class AbstractUnicodeString extends AbstractString
                 $lastError = preg_last_error();
 
                 foreach (get_defined_constants(true)['pcre'] as $k => $v) {
-                    if ($lastError === $v && '_ERROR' === substr($k, -6)) {
+                    if ($lastError === $v && str_ends_with($k, '_ERROR')) {
                         throw new RuntimeException('Matching failed with '.$k.'.');
                     }
                 }
@@ -467,7 +467,7 @@ abstract class AbstractUnicodeString extends AbstractString
         $width = 0;
         $s = str_replace(["\x00", "\x05", "\x07"], '', $this->string);
 
-        if (false !== strpos($s, "\r")) {
+        if (str_contains($s, "\r")) {
             $s = str_replace(["\r\n", "\r"], "\n", $s);
         }
 
@@ -478,7 +478,7 @@ abstract class AbstractUnicodeString extends AbstractString
         foreach (explode("\n", $s) as $s) {
             if ($ignoreAnsiDecoration) {
                 $s = preg_replace('/(?:\x1B(?:
-                    \[ [\x30-\x3F]*+ [\x20-\x2F]*+ [0x40-\x7E]
+                    \[ [\x30-\x3F]*+ [\x20-\x2F]*+ [\x40-\x7E]
                     | [P\]X^_] .*? \x1B\\\\
                     | [\x41-\x7E]
                 )|[\p{Cc}\x7F]++)/xu', '', $s);

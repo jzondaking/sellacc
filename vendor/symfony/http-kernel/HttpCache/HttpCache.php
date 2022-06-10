@@ -29,11 +29,11 @@ use Symfony\Component\HttpKernel\TerminableInterface;
  */
 class HttpCache implements HttpKernelInterface, TerminableInterface
 {
-    private $kernel;
-    private $store;
-    private $request;
-    private $surrogate;
-    private $surrogateCacheStrategy = null;
+    private HttpKernelInterface $kernel;
+    private StoreInterface $store;
+    private Request $request;
+    private ?SurrogateInterface $surrogate;
+    private ?ResponseCacheStrategyInterface $surrogateCacheStrategy = null;
     private array $options = [];
     private array $traces = [];
 
@@ -86,7 +86,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $this->surrogate = $surrogate;
 
         // needed in case there is a fatal error because the backend is too slow to respond
-        register_shutdown_function([$this->store, 'cleanup']);
+        register_shutdown_function($this->store->cleanup(...));
 
         $this->options = array_merge([
             'debug' => false,
@@ -449,9 +449,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      */
     protected function forward(Request $request, bool $catch = false, Response $entry = null)
     {
-        if ($this->surrogate) {
-            $this->surrogate->addSurrogateCapability($request);
-        }
+        $this->surrogate?->addSurrogateCapability($request);
 
         // always a "master" request (as the real master request can be in cache)
         $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $catch);
@@ -635,7 +633,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
     protected function processResponseBody(Request $request, Response $response)
     {
-        if (null !== $this->surrogate && $this->surrogate->needsParsing($response)) {
+        if ($this->surrogate?->needsParsing($response)) {
             $this->surrogate->process($request, $response);
         }
     }

@@ -53,7 +53,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
     protected $dispatcher;
     protected $resolver;
     protected $requestStack;
-    private $argumentResolver;
+    private ArgumentResolverInterface $argumentResolver;
 
     public function __construct(EventDispatcherInterface $dispatcher, ControllerResolverInterface $resolver, RequestStack $requestStack = null, ArgumentResolverInterface $argumentResolver = null)
     {
@@ -237,7 +237,7 @@ class HttpKernel implements HttpKernelInterface, TerminableInterface
 
         try {
             return $this->filterResponse($response, $request, $type);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return $response;
         }
     }

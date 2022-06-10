@@ -21,12 +21,12 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class MemcachedSessionHandler extends AbstractSessionHandler
 {
-    private $memcached;
+    private \Memcached $memcached;
 
     /**
      * Time to live in seconds.
      */
-    private ?int $ttl;
+    private int|\Closure|null $ttl;
 
     /**
      * Key prefix for shared environments.
@@ -69,7 +69,8 @@ class MemcachedSessionHandler extends AbstractSessionHandler
 
     public function updateTimestamp(string $sessionId, string $data): bool
     {
-        $this->memcached->touch($this->prefix.$sessionId, time() + (int) ($this->ttl ?? ini_get('session.gc_maxlifetime')));
+        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? ini_get('session.gc_maxlifetime');
+        $this->memcached->touch($this->prefix.$sessionId, time() + (int) $ttl);
 
         return true;
     }
@@ -79,7 +80,9 @@ class MemcachedSessionHandler extends AbstractSessionHandler
      */
     protected function doWrite(string $sessionId, string $data): bool
     {
-        return $this->memcached->set($this->prefix.$sessionId, $data, time() + (int) ($this->ttl ?? ini_get('session.gc_maxlifetime')));
+        $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? ini_get('session.gc_maxlifetime');
+
+        return $this->memcached->set($this->prefix.$sessionId, $data, time() + (int) $ttl);
     }
 
     /**
