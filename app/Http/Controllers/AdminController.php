@@ -120,7 +120,7 @@ class AdminController extends Controller
                 return redirect()->back()->with("success", __("system.excute_success"));
             }
 
-            if ($request->type == "plus") {
+            if ($request->type == "minus") {
                 User::where('id', $id)->update([
                     "cash" => $user['cash'] - $request->value
                 ]);
