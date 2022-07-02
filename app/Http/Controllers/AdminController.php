@@ -22,6 +22,11 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+
+        $userQuery = User::query();
+        $accountQuery = Account::query();
+        $orderQuery = Order::query();
+
         $statistic = array(
             "total_users" => count(User::all()),
             "total_customers" => count(User::where('cash', '>', 0)->get()),
@@ -31,11 +36,18 @@ class AdminController extends Controller
             "accounts_sold" => count(Account::where('buyer', '!=', NULL)->get()),
             "today_revenue" => Order::whereDate('created_at', Carbon::today())->sum('total_pay'),
             "month_revenue" => Order::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->sum('total_pay'),
+            "total_users" =>  $userQuery->count(),
+            "total_customers" =>  $userQuery->where('cash', '>', 0)->count(),
+            "total_clones" =>   $userQuery->where('cash', '<=', 0)->count()),
+            "today_registrations" =>  $userQuery->whereDate('created_at', Carbon::today())->count(),
+            "accounts_instock" => $accountQuery->where('buyer', NULL)->count(),
+            "accounts_sold" => $accountQuery->where('buyer', '!=', NULL)->count(),
+            "today_revenue" => $orderQuery->whereDate('created_at', Carbon::today())->sum('total_pay'),
+            "month_revenue" => $orderQuery->whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->sum('total_pay'),
             "logs" => Log::orderBy('id', 'desc')->paginate(10)
         );
-
-        return view("admin.dashboard", compact('statistic'));
     }
+
 
     public function manage_users()
     {
