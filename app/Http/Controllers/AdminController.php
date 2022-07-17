@@ -38,7 +38,7 @@ class AdminController extends Controller
             "month_revenue" => Order::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->sum('total_pay'),
             "total_users" =>  $userQuery->count(),
             "total_customers" =>  $userQuery->where('cash', '>', 0)->count(),
-            "total_clones" =>   $userQuery->where('cash', '<=', 0)->count()),
+            "total_clones" =>   $userQuery->where('cash', '<=', 0)->count(),
             "today_registrations" =>  $userQuery->whereDate('created_at', Carbon::today())->count(),
             "accounts_instock" => $accountQuery->where('buyer', NULL)->count(),
             "accounts_sold" => $accountQuery->where('buyer', '!=', NULL)->count(),
@@ -46,6 +46,8 @@ class AdminController extends Controller
             "month_revenue" => $orderQuery->whereYear('created_at', date('Y'))->whereMonth('created_at', date('m'))->sum('total_pay'),
             "logs" => Log::orderBy('id', 'desc')->paginate(10)
         );
+        
+        return view("admin.dashboard", compact('statistic'));
     }
 
 
